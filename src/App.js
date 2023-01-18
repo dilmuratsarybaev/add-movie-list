@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import { HeaderMain } from "./Components/Header/Header";
+import { Main } from "./Components/Main/Main";
 
 function App() {
+  const [movielist, setMovielist] = useState([]);
+
+  const addMovieList = (nameMovie, urlMovie, ratingMovie) => {
+    setMovielist((prevMovilist) => {
+      return [
+        ...prevMovilist,
+        {
+          name: nameMovie,
+          url: urlMovie,
+          rating: ratingMovie,
+          id: Math.random().toString(),
+        },
+      ];
+    });
+  };
+  console.log(movielist);
+
+  const deleteById = (id) => {
+    setMovielist((prevMovilist) => {
+      return prevMovilist.filter((elment) => elment.id !== id);
+    });
+  };
+  // console.log(deleteById);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <HeaderMain onMovieList={addMovieList} />
+      <Main movielist={movielist} deleteById={deleteById} />
     </div>
   );
 }
